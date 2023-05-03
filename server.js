@@ -3,14 +3,15 @@
 const express = require('express');
 const server = express();
 const cors = require('cors');
-const axios =require('axios');
-require('dotenv').config();
 server.use(cors());
 
-const allData = require('./data_movies/data.json')
-const PORT = 3000;
-const apiKey = process.env.APIkey;
+require('dotenv').config();
+const axios =require('axios');
 
+const allData = require('./data_movies/data.json')
+const PORT = 3004;
+const apiKey=process.env.apiKey;
+console.log(apiKey)
 server.listen(PORT,()=>{
     console.log(`Listening on ${PORT}: I'm ready to routing!`)
 })
@@ -60,7 +61,7 @@ function er404(){
 
 
 function getTrending(req,res){
-    const url = `https://api.themoviedb.org/3/trending/movie/day?api_key=b944f85c39d579468b1f885bdd91788a`
+    const url = `https://api.themoviedb.org/3/trending/movie/day?api_key=${apiKey}`
     try{
         axios.get(url)
         .then(response  =>{
@@ -83,7 +84,7 @@ function getTrending(req,res){
 
 
 function getSearch(req,res){
-    const url = `https://api.themoviedb.org/3/search/movie?api_key=b944f85c39d579468b1f885bdd91788a&language=en-US&query=The&page=2`
+    const url = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&language=en-US&query=The&page=2`
     try{
         axios.get(url)
         .then(response  =>{
@@ -106,7 +107,7 @@ function getSearch(req,res){
 
 
 function getWatch(req,res){
-    const url = `https://api.themoviedb.org/3/watch/providers/regions?api_key=b944f85c39d579468b1f885bdd91788a&language=en-US`
+    const url = `https://api.themoviedb.org/3/watch/providers/regions?api_key=${apiKey}&language=en-US`
     try{
         axios.get(url)
         .then(response  =>{
@@ -129,7 +130,7 @@ function getWatch(req,res){
 
 
 function getDiscover(req,res){
-    const url = `https://api.themoviedb.org/3/discover/movie?api_key=b944f85c39d579468b1f885bdd91788a&language=en-US&page=1&include_adult=false
+    const url = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=en-US&page=1&include_adult=false
     `
     try{
         axios.get(url)
