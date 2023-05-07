@@ -1,19 +1,26 @@
 'use strict';
 
+require('dotenv').config();
 const express = require('express');
 const server = express();
 const cors = require('cors');
+const pg = require('pg');
 server.use(cors());
-
-require('dotenv').config();
+server.use(express.json());
 const axios =require('axios');
+//'postgresql://localhost:5432/lab135'
+const client = new pg.Client(process.env.DB_url);
 
 const allData = require('./data_movies/data.json')
 const PORT = 3004;
 const apiKey=process.env.apiKey;
 console.log(apiKey)
-server.listen(PORT,()=>{
-    console.log(`Listening on ${PORT}: I'm ready to routing!`)
+
+client.connect().then(()=>{
+    server.listen(PORT,()=>{
+        console.log(`Listening on ${PORT}: I'm ready to routing!`)
+    })
+
 })
 let movies1=[];
 
@@ -27,9 +34,9 @@ server.get('/favorite',(req,res)=>{
     res.send("Welcome to Favorite Page");
 })
 
-    //1
+     //1
 server.get('/trending',getTrending);
-
+    //2
 server.get('/search',getSearch);
 
     //3
@@ -38,6 +45,11 @@ server.get('/watch',getWatch);
     //4
 server.get('/discover',getDiscover);
 
+    //5
+server.post('/addMovie',addMovieHandler);
+
+    //6
+server.get('/getMovies',getMovieHandler);
 
 
 server.get('/404',(req,res)=>{
@@ -152,8 +164,33 @@ function getDiscover(req,res){
     }
 }
 
+function addMovieHandler(req,res){
+    const movie = req.body;
+    console.log(movie);
+    const sql =`INSERT INTO newMovie (title, release_data, overview)
+                VALUES ($1,$2,$3);`
+    const values =[movie.title , movie.release_data , movie.overview];
+    client.query(sql,values)
+    .then(data =>{
+        res.send("The Movie Has Been Added Successfully");
 
+    })
+    .catch((error)=>{
+        errorHandler(error,req,res)
+    })
+}
 
+function getMovieHandler(req,res){
+    const sql='SELECT * FROM newMovie';
+    client.query(sql).then(data=>{
+       
+        res.send(data.rows);
+    })
+    .catch((error)=>{
+        errorHandler(error,req,res);
+    });
+
+}
 function movies(id,title,release_date,poster_path,overview){
     this.id=id;
     this.title=title;
