@@ -3,7 +3,7 @@
 **Author Name**: Bashar Nidal
 
 ## WRRC
-![first one](assets/reqres.png)
+![first one](assets/Untitled22.png)
 
 ## Overview
 
@@ -41,3 +41,5 @@ This page is movies libray , I used Api movies database from [The movie Database
 API Docs
 API Docs
 Hosted API documentation for every OAS (Swagger) and RAML spec out there. Powered by Stoplight.io. Document, mock, test, and more, with the StopLight API Designer.
+
+8. INSERT and GET data from to DB using postgresql.

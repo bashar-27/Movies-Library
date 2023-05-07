@@ -46,7 +46,7 @@ server.get('/watch',getWatch);
 server.get('/discover',getDiscover);
 
     //5
-server.post('/getMovies',addMovieHandler);
+server.post('/addMovie',addMovieHandler);
 
     //6
 server.get('/getMovies',getMovieHandler);
@@ -167,8 +167,8 @@ function getDiscover(req,res){
 function addMovieHandler(req,res){
     const movie = req.body;
     console.log(movie);
-    const sql =`INSERT INTO newMovie (movie_title, release_data, overview)
-                VALUES ($1, $2, $3);`
+    const sql =`INSERT INTO newMovie (title, release_data, overview)
+                VALUES ($1,$2,$3);`
     const values =[movie.title , movie.release_data , movie.overview];
     client.query(sql,values)
     .then(data =>{
