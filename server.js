@@ -51,7 +51,14 @@ server.post('/addMovie',addMovieHandler);
     //6
 server.get('/getMovies',getMovieHandler);
 
+    //7
+server.delete('/deleteMovie/:id',deletMovieHandler);
 
+    //8
+server.put('/updMovie/:id',updateMovieHandler);    
+
+    //9
+server.get('/getMovieId/:id',getMovieById);    
 server.get('/404',(req,res)=>{
     res.status(404).send(er404())
 })
@@ -191,6 +198,42 @@ function getMovieHandler(req,res){
     });
 
 }
+
+function deletMovieHandler(req,res){
+    const id =req.params.id;
+    const sql = `DELETE FROM newMovie WHERE id=${id}`;
+    client.query(sql).then((data)=>{
+        console.log("DELETED SUCCESSFULLY");
+    }).catch((error)=>{
+        errorHandler(error,req,res);
+    });
+
+}
+
+function updateMovieHandler(req,res){
+    const {id} =req.params;
+    const sql= `UPDATE newMovie
+    SET title = $1, release_data = $2, overview = $3
+    WHERE id=${id};`
+    const {title, release_data,overview}=req.body;
+    const value=[title,release_data,overview];
+    client.query(sql,value).then((data)=>{
+        console.log("THE IS UPDATED");
+    }).catch((error)=>{
+        errorHandler(error,req,res);
+    })
+}
+
+function getMovieById(req,res){
+   const id = req.params.id;
+   const sql= `SELECT * FROM  newMovie WHERE id=${id};` 
+    client.query(sql).then(data=>{
+        res.send(data.rows);
+    }).catch((error)=>{
+        errorHandler(error,req,res);
+    })
+}
+
 function movies(id,title,release_date,poster_path,overview){
     this.id=id;
     this.title=title;

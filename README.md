@@ -16,6 +16,8 @@ This page is movies libray , I used Api movies database from [The movie Database
 
 - I used  format clean code for my code.
 
+- Postgresql.
+
 ## Getting Started
 
 1. clone this repository;
