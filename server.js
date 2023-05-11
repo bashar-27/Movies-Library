@@ -9,7 +9,7 @@ server.use(cors());
 server.use(express.json());
 const axios =require('axios');
 //'postgresql://localhost:5432/lab135'
-const client = new pg.Client(process.env.DATABASE_UR);
+const client = new pg.Client(process.env.DATABASE_URL);
 
 const allData = require('./data_movies/data.json')
 const PORT = process.env.PORT;
