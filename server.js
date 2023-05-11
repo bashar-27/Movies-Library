@@ -12,7 +12,7 @@ const axios =require('axios');
 const client = new pg.Client(process.env.DATABASE_URL);
 
 const allData = require('./data_movies/data.json')
-const PORT = process.env.PORT;
+const PORT =process.env.PORT;
 const apiKey=process.env.apiKey;
 console.log(apiKey)
 
